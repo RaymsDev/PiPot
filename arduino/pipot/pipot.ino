@@ -29,6 +29,7 @@ Akeru akeru(RX, TX);
 
 /*Digital*/
 int pinDHT22 = 2;
+int pinLedUv = 3;
 /*Analog*/
 int pinPhoto = 2;
 int pinWLvL = 3;
