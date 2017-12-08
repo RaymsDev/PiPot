@@ -27,12 +27,14 @@ Akeru akeru(RX, TX);
   //      GND: GND
   //      DATA: 2*/
 
-  /*Digital*/
+/*Digital*/
 int pinDHT22 = 2;
-  /*Analog*/
+/*Analog*/
+int pinPhoto = 2;
 int pinWLvL = 3;
 int pinMoisture = 4;
 int pinServo = 5;
+
 
 SimpleDHT22 dht22;
 
@@ -52,9 +54,9 @@ void intPositiveToBitArray(int value, int dataLength, int *arrayDest, int startI
   Serial.print(" sur ");
   Serial.print(dataLength);
   Serial.print(" bits : ");
-  for(int i=startIndex; i<startIndex+dataLength; i++) {
-    if((i+1)%4==0){
-       Serial.print(' '); 
+  for (int i = startIndex; i < startIndex + dataLength; i++) {
+    if ((i + 1) % 4 == 0) {
+      Serial.print(' ');
     }
     Serial.print(arrayDest[i]);
   }
@@ -118,14 +120,14 @@ void loop()
 
   int temperatureBin[10];
   Serial.print("Sample RAW Bits: ");
-  
+
   for (int i = 0; i < 40; i++) {
     Serial.print(data[i]);
   }
 
   Serial.println("");
   floatToBitArray(temperature * 10, temperatureBin, 0, 6, 4);
-  
+
 
 
   Serial.println("");
@@ -137,15 +139,15 @@ void loop()
   // DHT22 sampling rate is 0.5HZ.
 
   /*String arrayString = akeru.toHex(humidityTemperature);
-  Serial.println(arrayString);
-  if (akeru.sendPayload(arrayString)) {
+    Serial.println(arrayString);
+    if (akeru.sendPayload(arrayString)) {
     Serial.println("Message Sent");
-  }
+    }
 
-  // Wait for 10 minutes.
-  // Note that delay(600000) will block the Arduino (bug in delay()?)
-  for (int second = 0; second < 600; second++)
-  {
+    // Wait for 10 minutes.
+    // Note that delay(600000) will block the Arduino (bug in delay()?)
+    for (int second = 0; second < 600; second++)
+    {
     delay(1000);
-  }*/
+    }*/
 }
