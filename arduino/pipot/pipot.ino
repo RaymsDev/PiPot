@@ -26,8 +26,57 @@ Akeru akeru(RX, TX);
   //      VCC: 5V or 3V
   //      GND: GND
   //      DATA: 2*/
+
+  /*Digital*/
 int pinDHT22 = 2;
+  /*Analog*/
+int pinWLvL = 3;
+int pinMoisture = 4;
+int pinServo = 5;
+
 SimpleDHT22 dht22;
+
+void intPositiveToBitArray(int value, int dataLength, int *arrayDest, int startIndex) {
+  int index = startIndex;
+  for (int i = dataLength - 1; i >= 0; i--) {
+    if ((value >> i) & 1) {
+      arrayDest[index] = 1;
+    } else {
+      arrayDest[index] = 0;
+    }
+    index++;
+  }
+  // print for debug
+  Serial.print("Conversion binaire de ");
+  Serial.print(value);
+  Serial.print(" sur ");
+  Serial.print(dataLength);
+  Serial.print(" bits : ");
+  for(int i=startIndex; i<startIndex+dataLength; i++) {
+    if((i+1)%4==0){
+       Serial.print(' '); 
+    }
+    Serial.print(arrayDest[i]);
+  }
+  Serial.println("");
+}
+
+void floatToBitArray(float value, int *arrayDest, int startIndex, int entierLength, int decimalLength) {
+  double entier, decimal;
+  decimal = modf(value, &entier);
+  if (value < 0) {
+    // on stocke sur le premier bit le fait qu'il s'agisse d'un nb negatif
+    arrayDest[startIndex] = 1;
+    // on repasse sur une valeur positive pour continuer
+    entier = entier * -1;
+  } else {
+    arrayDest[startIndex] = 0;
+  }
+  startIndex++;
+  intPositiveToBitArray((int) entier, entierLength, arrayDest, startIndex);
+  intPositiveToBitArray((int) (decimal * 100), decimalLength, arrayDest, startIndex + entierLength);
+}
+
 
 void setup()
 {
@@ -60,27 +109,24 @@ void loop()
   float temperature = 0;
   float humidity = 0;
   byte data[40] = {0};
-  String temp = "";
+
   int err = SimpleDHTErrSuccess;
   if ((err = dht22.read2(pinDHT22, &temperature, &humidity, data)) != SimpleDHTErrSuccess) {
     Serial.print("Read DHT22 failed, err="); Serial.println(err); delay(2000);
     return;
   }
 
-  int humidityTemperature = 0;
+  int temperatureBin[10];
   Serial.print("Sample RAW Bits: ");
   
-  for (int i = 31, j = 0; i >= 0 ; i--) {
-    //Serial.print(data[i]);
-    if (data[j] == 1) {
-      humidityTemperature |= 1 << i;
-      Serial.println(humidityTemperature);
-    }
-    j++;
+  for (int i = 0; i < 40; i++) {
+    Serial.print(data[i]);
   }
 
   Serial.println("");
-  Serial.print(humidityTemperature, BIN);
+  floatToBitArray(temperature * 10, temperatureBin, 0, 6, 4);
+  
+
 
   Serial.println("");
 
@@ -90,7 +136,7 @@ void loop()
 
   // DHT22 sampling rate is 0.5HZ.
 
-  String arrayString = akeru.toHex(humidityTemperature);
+  /*String arrayString = akeru.toHex(humidityTemperature);
   Serial.println(arrayString);
   if (akeru.sendPayload(arrayString)) {
     Serial.println("Message Sent");
@@ -101,5 +147,5 @@ void loop()
   for (int second = 0; second < 600; second++)
   {
     delay(1000);
-  }
+  }*/
 }
