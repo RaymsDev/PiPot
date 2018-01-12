@@ -32,11 +32,11 @@ int pinDHT22 = 2;
 int pinLedUv = 3;
 /*Analog*/
 int pinPhoto = 2;
-int pinWLvL = 3;
+int pinWaterLevel = 3;
 int pinMoisture = 4;
 int pinServo = 5;
 
-
+  
 SimpleDHT22 dht22;
 
 void intPositiveToBitArray(int value, int dataLength, int *arrayDest, int startIndex) {
@@ -80,6 +80,11 @@ void floatToBitArray(float value, int *arrayDest, int startIndex, int entierLeng
   intPositiveToBitArray((int) (decimal * 100), decimalLength, arrayDest, startIndex + entierLength);
 }
 
+void analogToPercentByte(float analogValue, int *varDest) {
+  int waterValue = (int)((analogValue*100)/1024);
+  intPositiveToBitArray(waterValue, 8, varDest,0);
+}
+
 
 void setup()
 {
@@ -103,6 +108,31 @@ void loop()
 {
 
   // start working...
+  Serial.println("=================================");
+  //waterLevel
+  float waterLevelValue = analogRead(pinWaterLevel); // get analog value
+  int waterLevelBin[8];
+  analogToPercentByte(waterLevelValue, waterLevelBin);
+  
+  //Moisture level
+  float moistureValue = analogRead(pinMoisture); // get analog value
+  int moistureBin[8];
+  analogToPercentByte(moistureValue, moistureBin);
+
+
+  //photo level
+  int photoValue = analogRead(pinPhoto);
+  float photoVoltage = photoValue * (5.0/1024.0);
+  int photoBin[0];
+  if(photoVoltage > 3.5){
+    photoBin[0] = 1;
+  }else{
+    photoBin[0] = 0;
+  }
+  
+  Serial.print("Photo state: ");
+  Serial.println(photoBin[0]);
+  
   Serial.println("=================================");
   Serial.println("Sample DHT22 with RAW bits...");
 
@@ -137,6 +167,7 @@ void loop()
   Serial.print(int(temperature)); Serial.print(" *C, ");
   Serial.print(int(humidity)); Serial.println(" RH%");
 
+  delay(5000);
   // DHT22 sampling rate is 0.5HZ.
 
   /*String arrayString = akeru.toHex(humidityTemperature);
