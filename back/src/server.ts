@@ -1,19 +1,24 @@
 import * as http from 'http';
+import * as https from 'https';
 
 import App from "./app";
+import {
+  setInterval
+} from 'timers';
 
-const port = process.env.PORT || 3000;
-App.set('port', port);
+const serverPort = process.env.PORT ||  3000;
+App.set('port', serverPort);
 
 const server = http.createServer(App);
-server.listen(port);
+
+server.listen(serverPort);
 server.on('error', onError);
 server.on('listening', onListening);
 
 function onError(error: NodeJS.ErrnoException): void {
   if (error.syscall !== 'listen') throw error;
-  let bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
-  switch(error.code) {
+  let bind = (typeof serverPort === 'string') ? 'Pipe ' + serverPort : 'Port ' + serverPort;
+  switch (error.code) {
     case 'EACCES':
       console.error(`${bind} requires elevated privileges`);
       process.exit(1);
@@ -32,3 +37,34 @@ function onListening(): void {
   let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
   console.log(`Listening on ${bind}`);
 }
+
+const interval = 60 * 1000;
+
+function getEvent() {
+  const options: https.RequestOptions = {
+    method: "GET",
+    hostname: "pipot2.cumulocity.com",
+    path: "/event/events",
+    headers: {
+      "Authorization": "Basic cGlwb3QyL3JlbXkubGFmZnVnZUB5bm92LmNvbTpCYWJvdTk3NEA="
+    }
+  };
+
+  const req = https.get(options, res => {
+    console.log("Status : ", res.statusCode);
+    console.log("Headers : ", res.headers);
+    res.on("data", (data => {
+      data = JSON.parse(data.toString());
+    }));
+  });
+
+  req.on('error', (e) => {
+    console.error(e);
+  });
+
+  req.end();
+}
+
+getEvent();
+
+setInterval(getEvent, interval);
