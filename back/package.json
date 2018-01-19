@@ -1,0 +1,29 @@
+{
+  "name": "pipot-base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app",
+  "types": "dist/app",
+  "scripts": {
+    "start": "npm run build:live",
+    "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaymsDev/pipot-base.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RaymsDev/pipot-base/issues"
+  },
+  "homepage": "https://github.com/RaymsDev/pipot-base#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/express": "^4.11.0",
+    "@types/node": "^9.3.0",
+    "nodemon": "^1.14.11",
+    "ts-node": "^4.1.0",
+    "typescript": "^2.6.2"
+  }
+}
