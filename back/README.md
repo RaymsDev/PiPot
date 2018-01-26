@@ -1,1 +1,2 @@
-# pipot-base
+# event-finder
+Microservice for Facebook Event
