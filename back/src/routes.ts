@@ -1,11 +1,8 @@
 import * as express from 'express';
+import { PREFIX } from './server';
+import MeasureRouter from './routes/measure.router';
 
 const app = express();
-
-app.get('/', (req: express.Request, res: express.Response)=>{
-  res.status(200).json({
-    message: "It's work!"
-  });
-});
+app.use("/measure", MeasureRouter) ;
 
 export var Routes: express.Express = app;

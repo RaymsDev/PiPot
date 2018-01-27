@@ -4,11 +4,17 @@
   "description": "Get Facebook's event",
   "main": "src/server.ts",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mongoose": "^5.0.1",
+    "mongoose-double": "0.0.1",
+    "morgan": "^1.9.0"
   },
   "devDependencies": {
     "@types/express": "^4.11.0",
+    "@types/mongodb": "^3.0.5",
+    "@types/mongoose": "^5.0.0",
     "@types/node": "^9.3.0",
+    "concurrently": "^3.5.1",
     "nodemon": "^1.14.11",
     "typescript": "^2.6.2"
   },
@@ -16,8 +22,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./dist/server.js",
     "build": "tsc",
-    "dev": "tsc --watch | nodemon --inspect ./dist/server.js --watch dist",
-    "dockerise": "docker-compose up"
+    "dev": "concurrently \"tsc --watch\" \"nodemon ./dist/server.js --watch dist\"",
+    "dockerise": "docker-compose up",
+    "create-mongo-test": "docker run --name mongo-test -d -p 127.0.0.1:27017:27017 mongo",
+    "start-mongo-test": "docker start /mongo-test"
   },
   "repository": {
     "type": "git",
