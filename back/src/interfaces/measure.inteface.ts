@@ -1,3 +1,4 @@
+import { IGreenhouse } from './greenhouse.interface';
 export interface IMeasure{
   temperature?: string;
   airMoisture?: number;
@@ -6,4 +7,5 @@ export interface IMeasure{
   luminosity?: boolean;
   lampIsOn?: boolean;
   doorIsOpen?: boolean;
+  greenhouse?:string;
 }

@@ -13,7 +13,8 @@ const GreenhouseSchema: Schema = new Schema({
   },
   device: {
     type: String,
-    required: true
+    required: true,
+    unique:true
   },
   position: {
     name: {

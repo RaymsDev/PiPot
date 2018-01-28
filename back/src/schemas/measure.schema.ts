@@ -1,11 +1,14 @@
-import {Schema, model} from 'mongoose';
+import {
+  Schema,
+  model
+} from 'mongoose';
 
 const MeasureSchema: Schema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now
   },
-  temperature : {
+  temperature: {
     type: String,
     default: ""
   },
@@ -17,7 +20,7 @@ const MeasureSchema: Schema = new Schema({
     type: Number,
     default: ""
   },
-  waterLevel:{
+  waterLevel: {
     type: Number,
     default: ""
   },
@@ -32,6 +35,10 @@ const MeasureSchema: Schema = new Schema({
   doorIsOpen: {
     type: Boolean,
     default: false
+  },
+  greenhouse: {
+    type: Schema.Types.ObjectId,
+    ref: "Greenhouse"
   }
 });
 
