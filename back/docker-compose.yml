@@ -2,7 +2,7 @@ version: "2"
 services:
   pipot-base:
     container_name: pipot-base
-    restart: always
+    restart: "no"
     build: .
     ports:
       - "3000:3000"

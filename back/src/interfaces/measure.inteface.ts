@@ -1,9 +1,9 @@
 export interface IMeasure{
-  temperature?: Number;
-  airMoisture?: Number;
-  soilMoisture?: Number;
-  waterLevel?:Number;
-  luminosity?: Boolean;
-  lampIsOn?: Boolean;
-  doorIsOpen?: Boolean;
+  temperature?: string;
+  airMoisture?: number;
+  soilMoisture?: number;
+  waterLevel?:number;
+  luminosity?: boolean;
+  lampIsOn?: boolean;
+  doorIsOpen?: boolean;
 }

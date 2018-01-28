@@ -1,8 +1,9 @@
+import { ConsoleLogger } from './utils/logger.class';
 import { Routes } from './routes';
 import * as express from "express";
 import * as http from 'http';
 import * as mongoose from "mongoose";
-import * as logger from 'morgan';
+import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser';
 
 const PORT: number = 3000;
@@ -17,9 +18,8 @@ export class RestServer {
     // IMPORTANT: Routes must be defined AFTER the initialization of the app
     // so that it can use the configured middleware!
     app.use(routePrefix, Routes);
-
     const server = app.listen(port,()=>{
-      console.log(`REST SERVER started on port ${port} !`);
+      ConsoleLogger.info(`REST SERVER started on port ${port} !`);
     });
 
     this.initHeader(app);
@@ -31,11 +31,14 @@ export class RestServer {
     this.mongoConnection();
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
-    app.use(logger("dev"));
+    app.use(morgan("dev"));
   }
 
   private static mongoConnection(){
-    mongoose.connect(MONGODB_URI || process.env.MONGODB_URI);
+    mongoose.connect(MONGODB_URI || process.env.MONGODB_URI)
+    .catch(error=>{
+      ConsoleLogger.error(error);
+    });
 
   }
 

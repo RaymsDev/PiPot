@@ -3,23 +3,23 @@ import {
 } from './../interfaces/measure.inteface';
 
 export class Measure implements IMeasure {
-  public temperature: Number;
-  public airMoisture: Number;
-  public soilMoisture: Number;
-  public waterLevel: Number;
-  public luminosity: Boolean;
-  public lampIsOn: Boolean;
-  public doorIsOpen: Boolean;
+  public temperature: string;
+  public airMoisture: number;
+  public soilMoisture: number;
+  public waterLevel: number;
+  public luminosity: boolean;
+  public lampIsOn: boolean;
+  public doorIsOpen: boolean;
 
   constructor(data ? : Partial < IMeasure > ) {
     if (!data) {
       return;
     }
 
-    this.temperature = data.temperature ? data.temperature : new Number();
-    this.airMoisture = data.airMoisture ? data.airMoisture : new Number();
-    this.soilMoisture = data.soilMoisture ? data.soilMoisture : new Number();
-    this.waterLevel = data.waterLevel ? data.waterLevel : new Number();
+    this.temperature = data.temperature ? data.temperature : "";
+    this.airMoisture = data.airMoisture ? data.airMoisture : 0;
+    this.soilMoisture = data.soilMoisture ? data.soilMoisture : 0;
+    this.waterLevel = data.waterLevel ? data.waterLevel : 0;
     this.luminosity = data.luminosity ? data.luminosity : false
     this.lampIsOn = data.lampIsOn ? data.lampIsOn : false;
     this.doorIsOpen = data.doorIsOpen ? data.doorIsOpen : false;
