@@ -1,15 +1,15 @@
 import { IDataFromDevice } from './../interfaces/dataFromDevice.interface';
 export class DataFromDevice implements IDataFromDevice{
-  device: string;
-  time: string;
-  snr:string;
-  station:string;
-  data:string;
-  avgSignal:string;
-  lat:string;
-  lng:string;
-  rssi:string;
-  seqNumber:string;
+  public device: string;
+  public time: string;
+  public snr:string;
+  public station:string;
+  public data:string;
+  public avgSignal:string;
+  public lat:string;
+  public lng:string;
+  public rssi:string;
+  public seqNumber:string;
 
   constructor(data? :Partial<IDataFromDevice>){
     if(!data){

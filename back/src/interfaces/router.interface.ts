@@ -3,11 +3,12 @@ import { Request } from 'express';
 import { Router } from 'express';
 
 export interface IRouter{
-  list:(Request, Response) => void;
-  select:(Request, Response) => void;
-  create:(Request, Response) => void;
-  update:(Request, Response) => void;
-  remove:(Request, Response) => void;
-  routes:()=>void;
   router:Router;
+  list:(req:Request, res:Response) => void;
+  select:(req:Request, res:Response) => void;
+  create:(req:Request, res:Response) => void;
+  update:(req:Request, res:Response) => void;
+  remove:(req:Request, res:Response) => void;
+  routes:()=>void;
+
 }
