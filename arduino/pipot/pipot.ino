@@ -8,6 +8,7 @@
 */
 
 #include <Akeru.h>
+#include <stdlib.h>
 
 // TD1208 Sigfox module IO definition
 /*   Snootlab device | TX | RX
@@ -38,6 +39,7 @@ int pinServo = 5;
 
   
 SimpleDHT22 dht22;
+
 
 void intPositiveToBitArray(int value, int dataLength, int *arrayDest, int startIndex) {
   int index = startIndex;
@@ -106,7 +108,7 @@ void setup()
 
 void loop()
 {
-
+  /*
   // start working...
   Serial.println("=================================");
   //waterLevel
@@ -119,9 +121,8 @@ void loop()
   int moistureBin[8];
   analogToPercentByte(moistureValue, moistureBin);
 
-
   //photo level
-  int photoValue = analogRead(pinPhoto);
+  int photoValue = analogRead(pinPhoto); 
   float photoVoltage = photoValue * (5.0/1024.0);
   int photoBin[0];
   if(photoVoltage > 3.5){
@@ -149,7 +150,7 @@ void loop()
     return;
   }
 
-  int temperatureBin[10];
+  
   Serial.print("Sample RAW Bits: ");
 
   for (int i = 0; i < 40; i++) {
@@ -157,29 +158,38 @@ void loop()
   }
 
   Serial.println("");
+  // 
+  int temperatureBin[10];
+  
   floatToBitArray(temperature * 10, temperatureBin, 0, 6, 4);
 
+  Serial.println(int(temperatureBin));
 
+  //Serial.print("Sample OK: ");
+  //Serial.print(int(temperature)); Serial.print(" *C, ");
+  //Serial.print(int(humidity)); Serial.println(" RH%");
 
-  Serial.println("");
-
-  Serial.print("Sample OK: ");
-  Serial.print(int(temperature)); Serial.print(" *C, ");
-  Serial.print(int(humidity)); Serial.println(" RH%");
-
-  delay(5000);
+  
   // DHT22 sampling rate is 0.5HZ.
 
-  /*String arrayString = akeru.toHex(humidityTemperature);
-    Serial.println(arrayString);
-    if (akeru.sendPayload(arrayString)) {
-    Serial.println("Message Sent");
-    }
 
-    // Wait for 10 minutes.
-    // Note that delay(600000) will block the Arduino (bug in delay()?)
-    for (int second = 0; second < 600; second++)
-    {
-    delay(1000);
-    }*/
+  char buff[16];
+  Serial.println("toto");
+  delay(5000);
+
+  */
+  Serial.println("toto");
+  delay(5000);
+  /* String arrayString = "0000000008ca"; // akeru.toHex(2250); 
+  Serial.println(arrayString);
+  if (akeru.sendPayload(arrayString)) {
+    Serial.println("Message Sent");
+  }
+
+  // Wait for 10 minutes.
+  // Note that delay(600000) will block the Arduino (bug in delay()?)
+  for (int second = 0; second < 600; second++)
+  {
+  delay(1000);
+  }*/
 }
