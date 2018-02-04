@@ -6,9 +6,9 @@ import * as mongoose from "mongoose";
 import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser';
 
-const PORT: number = 3000;
+const PORT: number = 3001;
 const PREFIX: string = "/";
-const MONGODB_URI: string = "mongodb://localhost:27017/pipot";
+const MONGODB_URI: string = process.env.MONGODB_URI || "mongodb://localhost:27017/pipot";
 
 export class RestServer {
   
@@ -35,7 +35,8 @@ export class RestServer {
   }
 
   private static mongoConnection(){
-    mongoose.connect(MONGODB_URI || process.env.MONGODB_URI)
+    ConsoleLogger.info(MONGODB_URI);
+    mongoose.connect(MONGODB_URI)
     .catch(error=>{
       ConsoleLogger.error(error);
     });

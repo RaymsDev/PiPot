@@ -1,7 +1,7 @@
 import { RestServer } from './server.rest';
 import * as express from "express";
 
-export const PORT = normalizePort(process.env.PORT || 4000);
+export const PORT = normalizePort(process.env.PORT || 3001);
 export const PREFIX = "/api";
 
 const server = RestServer.start(express(), PORT, PREFIX);
@@ -10,7 +10,7 @@ server.on('listening', onListening);
 
 function normalizePort(val: number|string): number|string {
   const port: number = (typeof val === 'string') ? parseInt(val, 10) : val;
-  if (isNaN(port)) { return val; } else if (port >= 0) { return port; } else { return 4000; }
+  if (isNaN(port)) { return val; } else if (port >= 0) { return port; } else { return 3001; }
 }
 
 function onError(error: NodeJS.ErrnoException): void {
