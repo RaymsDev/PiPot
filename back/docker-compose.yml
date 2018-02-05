@@ -8,10 +8,15 @@ services:
       - "3000:3000"
     links:
       - mongo-pot
+    environment:
+      PORT: 3000
+      MONGODB_URI: "mongodb://mongo-pot/pipot"
   mongo-pot:
     container_name: mongo-pot
     image: mongo
-    volumes:
-      - ./data:/data/db
     ports:
       - "27017:27017"
+    volumes:
+      - volumedb:/data/db
+volumes: 
+  volumedb:
