@@ -6,13 +6,15 @@ import * as mongoose from "mongoose";
 import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser';
 
-const PORT: number = 3001;
+//To load .env file as ENV variable
+require("env2")(".env");
+
 const PREFIX: string = "/";
 const MONGODB_URI: string = process.env.MONGODB_URI || "mongodb://localhost:27017/pipot";
 
 export class RestServer {
   
-  public static start(app: express.Express, port: number|string = PORT, routePrefix: string = PREFIX): http.Server {
+  public static start(app: express.Express, port: number|string, routePrefix: string = PREFIX): http.Server {
     
     this.config(app);
     // IMPORTANT: Routes must be defined AFTER the initialization of the app
@@ -35,7 +37,6 @@ export class RestServer {
   }
 
   private static mongoConnection(){
-    ConsoleLogger.info(MONGODB_URI);
     mongoose.connect(MONGODB_URI)
     .catch(error=>{
       ConsoleLogger.error(error);
