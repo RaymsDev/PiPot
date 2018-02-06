@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <Akeru.h>
+#include <SimpleDHT.h>
 
 // TD1208 Sigfox module IO definition
 /*   Snootlab device | TX | RX
@@ -10,17 +11,47 @@
 #define TX 5
 #define RX 4
 
+/* for DHT22,
+  //      VCC: 5V or 3V
+  //      GND: GND
+  //      DATA: 2*/
+
 // Sigfox instance management 
 Akeru akeru(RX, TX);
 
+//Pins Declaration
 
-int temperature = 2250;
-int humiditySol = 37;
-int humidityAir = 30;
-int niveauEau = 73;
+/* Digital */
+int pinDHT22 = 2;
 
-bool luminosity = true;
-bool positionPorte = true;
+/* Analog */
+int pinPhoto = 2;
+int pinWaterLevel = 3;
+int pinMoisture = 4;
+
+SimpleDHT22 dht22;
+
+// Variable de travail
+
+//Var for Photoresistor
+int photoValue;
+float photoVoltage;
+
+float moistureValue;
+
+//Var for DHT22
+float temperatureSensorValue = 0;
+float humiditySensorValue = 0;
+byte data[40] = {0};
+int err = SimpleDHTErrSuccess;
+
+int temperature = 0;
+int humiditySol = 0;
+int humidityAir = 0;
+int niveauEau = 0;
+
+bool luminosity = false;
+bool positionPorte = false;
 bool led = false;
 
 char tempHexa[4];
@@ -41,8 +72,6 @@ char ledFormated;
 char sigFoxMessage[16];
 char sigFoxMessageCP[16];
 char sigFoxMessageFormated[16];
-
-
 
 char tempZero[3];
 
@@ -69,7 +98,35 @@ void loop() {
   //put your main code here, to run repeatedly:
 
   //  Lecture des sensor
+  
+  
+  //DHT22
+  if ((err = dht22.read2(pinDHT22, &temperatureSensorValue, &humiditySensorValue, data)) != SimpleDHTErrSuccess) {
+    Serial.print("Read DHT22 failed, err="); Serial.println(err); delay(2000);
+    return;
+  }
+  temperature = int(temperatureSensorValue*100);
+  humidityAir = int(humiditySensorValue);
 
+  //Luminosity
+  
+  photoValue = analogRead(pinPhoto); 
+  photoVoltage = photoValue * (5.0/1024.0);
+  if(photoVoltage > 3.5){
+    luminosity = true;
+  }else{
+    luminosity = false;
+  }
+
+  //0776006311a000000
+
+  //Water Level
+  niveauEau = analogRead(pinWaterLevel); // get analog value
+
+  // moisure
+  moistureValue = analogRead(pinMoisture);
+  humiditySol = int(moistureValue);
+  
   // Construction du message
 
     //Temperature traitement
@@ -79,11 +136,11 @@ void loop() {
 
     //Water Level traitement
     itoa(niveauEau, waterLevelHexa, 16);
-    addZero(waterLevelHexa, waterLevelFormated, 2);
+    addZero(waterLevelHexa, waterLevelFormated, 3);
 
     //Humidity Sol Traitement
     itoa(humiditySol, humiditySolHexa, 16);
-    addZero(humiditySolHexa, humiditySolFormated, 2);
+    addZero(humiditySolHexa, humiditySolFormated, 3);
 
     //Humidity Air Traitement
     itoa(humidityAir, humidityAirHexa, 16);
@@ -106,17 +163,18 @@ void loop() {
     
 
   // Resultat Type : 08ca251e49011000  
+  // 062c15a340940000
   
-  sprintf( sigFoxMessage, "%s%s%s%s%c%c%c%s", tempFormated, humiditySolFormated, humidityAirFormated, waterLevelFormated, ledFormated, doorFormated,luminosityFormated, "000");
+  sprintf( sigFoxMessage, "%s%s%s%s%c%c%c%s", tempFormated, humiditySolFormated, humidityAirFormated, waterLevelFormated, ledFormated, doorFormated,luminosityFormated, "0");
+
   
   String arrayString = sigFoxMessage;
   if(akeru.sendPayload(arrayString)){
       Serial.println("Message Sent");
   }
+    
   
-  // Envoie du message
-  
-  Serial.println(sigFoxMessage);
+  //Serial.println(sigFoxMessage);
   
   //Attente
   delay(5000);
