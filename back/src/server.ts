@@ -1,7 +1,10 @@
 import { RestServer } from './server.rest';
 import * as express from "express";
 
-export const PORT = normalizePort(process.env.PORT || 3001);
+//To load .env file as ENV variable
+require("env2")(".env");
+
+export const PORT = normalizePort(process.env.PORT || 3000);
 export const PREFIX = "/api";
 
 const server = RestServer.start(express(), PORT, PREFIX);
