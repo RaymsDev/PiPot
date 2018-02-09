@@ -40,3 +40,37 @@ function onListening(): void {
 }
 
 process.on('SIGUSR2', () => { process.exit(0); });
+
+import {Registry, Device, Amqp} from "azure-iothub";
+import { Client } from 'azure-iothub/lib/client';
+
+var serviceConfig:Client.TransportConfigOptions = {
+  host:"",
+  keyName: 'keyname' ,
+  hubName:"",
+  sharedAccessSignature:""
+};
+
+var serviceAmqp = new Amqp(serviceConfig );
+
+const IOT_HUB_CONNECTION_STRING=process.env.IOT_HUB_CONNECTION_STRING;
+let registry = Registry.fromConnectionString(IOT_HUB_CONNECTION_STRING);
+
+console.log("listening devices");
+registry.list((err, deviceList)=>{
+  deviceList.forEach((device) => {
+    let key = device.authentication ? device.authentication.symmetricKey.primaryKey : '<no primary key>';
+    console.log(device.deviceId + ': ' + key);
+  });
+});
+
+
+function print(err, res) {
+  if (err) console.log(err.toString());
+  if (res) console.log(res.statusCode + ' ' + res.statusMessage);
+}
+
+
+serviceAmqp.getFeedbackReceiver((message)=>{
+  console.log(message);
+});
