@@ -1,5 +1,7 @@
+import { ConsoleLogger } from './utils/logger.class';
 import { RestServer } from './server.rest';
 import * as express from "express";
+
 
 //To load .env file as ENV variable
 require("env2")(".env");
@@ -41,36 +43,11 @@ function onListening(): void {
 
 process.on('SIGUSR2', () => { process.exit(0); });
 
-import {Registry, Device, Amqp} from "azure-iothub";
-import { Client } from 'azure-iothub/lib/client';
 
-var serviceConfig:Client.TransportConfigOptions = {
-  host:"",
-  keyName: 'keyname' ,
-  hubName:"",
-  sharedAccessSignature:""
-};
-
-var serviceAmqp = new Amqp(serviceConfig );
+import { Message } from 'azure-iot-device';
 
 const IOT_HUB_CONNECTION_STRING=process.env.IOT_HUB_CONNECTION_STRING;
-let registry = Registry.fromConnectionString(IOT_HUB_CONNECTION_STRING);
-
-console.log("listening devices");
-registry.list((err, deviceList)=>{
-  deviceList.forEach((device) => {
-    let key = device.authentication ? device.authentication.symmetricKey.primaryKey : '<no primary key>';
-    console.log(device.deviceId + ': ' + key);
-  });
-});
+const IOT_HUB_NAME=process.env.IOT_HUB_NAME;
+const IOT_HUB_HOST=process.env.IOT_HUB_HOST;
 
 
-function print(err, res) {
-  if (err) console.log(err.toString());
-  if (res) console.log(res.statusCode + ' ' + res.statusMessage);
-}
-
-
-serviceAmqp.getFeedbackReceiver((message)=>{
-  console.log(message);
-});
