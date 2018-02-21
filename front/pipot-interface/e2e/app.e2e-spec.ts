@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('front App', () => {
+describe('pipot-interface App', () => {
   let page: AppPage;
 
   beforeEach(() => {
