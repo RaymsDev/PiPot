@@ -60,8 +60,6 @@ process.on('SIGUSR2', () => {
 });
 
 
-const IOT_HUB_HOST = process.env.IOT_HUB_HOST;
-const IOT_DEVICE_ID = process.env.IOT_DEVICE_ID;
 const IOT_HUB_CONNECTION_STRING = process.env.IOT_HUB_CONNECTION_STRING;
 
 
