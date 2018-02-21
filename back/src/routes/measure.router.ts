@@ -1,4 +1,6 @@
-import { MeasureController } from './../controllers/measure.controller';
+import {
+  MeasureController
+} from './../controllers/measure.controller';
 import {
   Request,
   Response,
@@ -20,6 +22,9 @@ class MeasureRouter implements IRouter {
 
   public list(req: Request, res: Response): void {
     MeasureDBModel.find()
+      .sort({
+        createdAt: 'desc'
+      })
       .then((data) => {
         res.status(200).json({
           data
@@ -48,7 +53,7 @@ class MeasureRouter implements IRouter {
   }
 
   public create(req: Request, res: Response): void {
-      MeasureController.create(req.body)
+    MeasureController.create(req.body)
       .then(data => {
         res.status(200).json({
           data
