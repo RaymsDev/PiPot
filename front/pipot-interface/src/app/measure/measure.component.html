@@ -1,0 +1,27 @@
+<table>
+  <thead>
+    <th>Device</th>
+    <th>Date</th>
+    <th>Temperature</th>
+    <th>Air Humidity</th>
+    <th>Ground Humidity</th>
+    <th>Water Level</th>
+    <th>Luminosity</th>
+    <th>Led UV</th>
+    <th>Door</th>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let measure of measures">
+       <td>{{measure.greenhouse}}</td>
+       <td>{{measure.createdAt}}</td>
+       <td>{{measure.temperature}}</td>
+       <td>{{measure.airMoisture}}</td>
+       <td>{{measure.soilMoisture}}</td>
+       <td>{{measure.waterLevel}}</td>
+       <td>{{measure.luminosity}}</td>
+       <td>{{measure.lampIsOn}}</td>
+       <td>{{measure.doorIsOpen}}</td>
+    </tr>
+  </tbody>
+</table>
