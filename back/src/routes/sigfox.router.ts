@@ -1,6 +1,7 @@
+import { DataFromDevice } from './../models/dataFromDevice.model';
 import {
   IMeasure
-} from './../interfaces/measure.inteface';
+} from './../interfaces/measure.interface';
 import {
   DownInstruction
 } from './../models/downInstruction.model';
@@ -17,6 +18,7 @@ import {
 import {
   Document
 } from 'mongoose';
+import { SigfoxController } from '../controllers/sigfox.controller';
 
 class SigfoxRouter {
   public router: Router;
@@ -51,34 +53,18 @@ class SigfoxRouter {
   }
 
   public push(req: Request, res: Response): void {
-    const hexData = req.body.data;
-    const device = req.body.device;
-    const binData = Converter.Bin2Hex;
-
-    // TODO: Map bin to Measure obj
-    const measure = new Measure();
-
-    const measureDB = new MeasureDBModel({
-      temperature: measure.temperature,
-      airMoisture: measure.airMoisture,
-      soilMoisture: measure.soilMoisture,
-      waterLevel: measure.waterLevel,
-      luminosity: measure.luminosity,
-      lampIsOn: measure.lampIsOn,
-      doorIsOpen: measure.doorIsOpen
-    });
-
-    measureDB.save()
-      .then(data => {
-        res.status(200).json({
-          data
-        });
-      })
-      .catch(error => {
-        res.status(500).json({
-          error
-        });
+    const dataFromDevice: DataFromDevice = req.body;
+    SigfoxController.create(dataFromDevice)
+    .then((data:Document)=>{
+      res.status(200).json({
+        data
       });
+    })
+    .catch(error=>{
+      res.status(500).json({
+        error
+      });
+    });
   }
 
   public routes(): void {

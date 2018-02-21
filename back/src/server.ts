@@ -1,6 +1,7 @@
-import { ConsoleLogger } from './utils/logger.class';
+import * as express from 'express';
+import {MeasureController} from './controllers/measure.controller';
 import { RestServer } from './server.rest';
-import * as express from "express";
+import { ConsoleLogger } from './utils/logger.class';
 
 
 //To load .env file as ENV variable
@@ -44,10 +45,21 @@ function onListening(): void {
 process.on('SIGUSR2', () => { process.exit(0); });
 
 
-import { Message } from 'azure-iot-device';
-
-const IOT_HUB_CONNECTION_STRING=process.env.IOT_HUB_CONNECTION_STRING;
-const IOT_HUB_NAME=process.env.IOT_HUB_NAME;
 const IOT_HUB_HOST=process.env.IOT_HUB_HOST;
+const IOT_DEVICE_ID=process.env.IOT_DEVICE_ID;
+const IOT_HUB_CONNECTION_STRING = process.env.IOT_HUB_CONNECTION_STRING;
 
 
+const iotHubClient = require('./utils/iotHubReaderClient');
+var iotHubReader = new iotHubClient(IOT_HUB_CONNECTION_STRING, "pipotConsumer");
+iotHubReader.startReadMessage(function (obj, date) {
+  try {
+    MeasureController.create(obj)
+    .then(res=>{
+      console.log(res);
+    })
+  } catch (err) {
+    console.log(obj);
+    console.error(err);
+  }
+});
