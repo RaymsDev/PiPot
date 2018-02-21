@@ -19,6 +19,8 @@
 // Sigfox instance management 
 Akeru akeru(RX, TX);
 
+
+
 //Pins Declaration
 
 /* Digital */
@@ -30,6 +32,7 @@ int pinWaterLevel = 3;
 int pinMoisture = 4;
 
 SimpleDHT22 dht22;
+
 
 // Variable de travail
 
@@ -78,6 +81,7 @@ char tempZero[3];
 // Fonctions declaration
 void addZero(char *message, char *messageFormmated, int sizeDesire);
 char boolTraitement(bool state);
+void analogToPercentByte(float analogValue, int *varDest);
 
 void setup() {
   // Init moniteur serie 
@@ -98,34 +102,7 @@ void loop() {
   //put your main code here, to run repeatedly:
 
   //  Lecture des sensor
-  
-  
-  //DHT22
-  if ((err = dht22.read2(pinDHT22, &temperatureSensorValue, &humiditySensorValue, data)) != SimpleDHTErrSuccess) {
-    Serial.print("Read DHT22 failed, err="); Serial.println(err); delay(2000);
-    return;
-  }
-  temperature = int(temperatureSensorValue*100);
-  humidityAir = int(humiditySensorValue);
-
-  //Luminosity
-  
-  photoValue = analogRead(pinPhoto); 
-  photoVoltage = photoValue * (5.0/1024.0);
-  if(photoVoltage > 3.5){
-    luminosity = true;
-  }else{
-    luminosity = false;
-  }
-
-  //0776006311a000000
-
-  //Water Level
-  niveauEau = analogRead(pinWaterLevel); // get analog value
-
-  // moisure
-  moistureValue = analogRead(pinMoisture);
-  humiditySol = int(moistureValue);
+  sensors_read();
   
   // Construction du message
 
@@ -148,25 +125,15 @@ void loop() {
 
 
     //Luminosity Traitement
-    //Serial.println(luminosityFormated);
-    //strncpy(luminosityFormated, boolTraitement(luminosity), 1);
     luminosityFormated = boolTraitement(luminosity);
-    //Serial.println(luminosityFormated);
     
     // Door Traitement
     doorFormated = boolTraitement(positionPorte);
-    //Serial.println(boolTraitement(positionPorte));
     
     // Led traitement
     ledFormated = boolTraitement(led);
-    //Serial.println(boolTraitement(led));
-    
-
-  // Resultat Type : 08ca251e49011000  
-  // 062c15a340940000
   
-  sprintf( sigFoxMessage, "%s%s%s%s%c%c%c%s", tempFormated, humiditySolFormated, humidityAirFormated, waterLevelFormated, ledFormated, doorFormated,luminosityFormated, "0");
-
+  sprintf( sigFoxMessage, "%s%s%s%s%s%c%c%c", "0", tempFormated, humiditySolFormated, humidityAirFormated, waterLevelFormated, ledFormated, doorFormated,luminosityFormated);
   
   String arrayString = sigFoxMessage;
   if(akeru.sendPayload(arrayString)){
@@ -202,4 +169,35 @@ char boolTraitement(bool state){
     return '0';
   }
 }
+
+void sensors_read(){
+   //DHT22
+  if ((err = dht22.read2(pinDHT22, &temperatureSensorValue, &humiditySensorValue, data)) != SimpleDHTErrSuccess) {
+    Serial.print("Read DHT22 failed, err="); Serial.println(err); delay(2000);
+    return;
+  }
+  temperature = int(temperatureSensorValue*100);
+  humidityAir = int(humiditySensorValue);
+
+  //Luminosity
+  
+  photoValue = analogRead(pinPhoto);  
+  photoVoltage = photoValue * (5.0/1024.0);
+  if(photoVoltage > 3.5){
+    luminosity = true;
+  }else{
+    luminosity = false;
+  }
+
+  //0776006311a000000   (analogValue*100)/1024);
+
+  //Water Level
+  niveauEau = ((analogRead(pinWaterLevel)*100)/1024); // get analog value
+
+  // moisure
+  moistureValue = ((analogRead(pinMoisture)*100)/1024);
+  humiditySol = int(moistureValue);
+}
+
+
 
