@@ -1,5 +1,5 @@
-# event-finder
-Microservice for Facebook Event
+# Pipot Base
+Microservice for manage iot hub events
 
 #.env model
 PORT=

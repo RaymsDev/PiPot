@@ -1,0 +1,359 @@
+{
+	"info": {
+		"name": "Pipot",
+		"_postman_id": "ca660fec-25a4-04dd-a20f-8c6a88193d75",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "sigfox",
+			"description": "",
+			"item": [
+				{
+					"name": "Downlink sigfox",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"device\":\"2002D3\",\n  \"data\":\"70117f61a5ceec67\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}{{prefix}}/sigfox/down/2002D3",
+							"host": [
+								"{{url}}{{prefix}}"
+							],
+							"path": [
+								"sigfox",
+								"down",
+								"2002D3"
+							]
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Uplink sigfox",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"device\": \"2002D3\",\n    \"time\": \"1518348034\",\n    \"snr\": \"17.32\",\n    \"station\": \"2265\",\n    \"data\":    \"00008482db360d80\",\n    \"avgSignal\": \"21.16\",\n    \"lat\": \"44.0\",\n    \"lng\": \"1.0\",\n    \"rssi\": \"-134.00\",\n    \"seqNumber\": \"805\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/{{prefix}}/sigfox/up",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{prefix}}",
+								"sigfox",
+								"up"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "measure",
+			"description": "",
+			"item": [
+				{
+					"name": "Get measures",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"temperature\": \"23,5\"\n\"airMoisture\": \"45\"\n\"soilMoisture\": \"60\"\n\"waterLevel\": \"90\"\n\"luminosity\": \"true\"\n\"lampIsOn\": \"false\"\n\"doorIsOpen\": \"false\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/{{prefix}}/measure/",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{prefix}}",
+								"measure",
+								""
+							]
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Create measure",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"temperature\": \"23,5\",\n\"airMoisture\": \"45\",\n\"soilMoisture\": \"60\",\n\"waterLevel\": \"90\",\n\"luminosity\": \"true\",\n\"lampIsOn\": \"false\",\n\"doorIsOpen\": \"false\",\n\"greenhouse\":\"2002D3\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/{{prefix}}/measure/",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{prefix}}",
+								"measure",
+								""
+							]
+						},
+						"description": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Greenhouse",
+			"description": "",
+			"item": [
+				{
+					"name": "Get greenhouse",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"temperature\": \"23,5\"\n\"airMoisture\": \"45\"\n\"soilMoisture\": \"60\"\n\"waterLevel\": \"90\"\n\"luminosity\": \"true\"\n\"lampIsOn\": \"false\"\n\"doorIsOpen\": \"false\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/{{prefix}}/greenhouse/",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{prefix}}",
+								"greenhouse",
+								""
+							]
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Create greenhouse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"device\": \"2002D3\",\n  \"position\":{\n    \"name\":\"Salle de pause\",\n    \"lattitude\":\"41\",\n    \"longitude\":\"1\"\n  },\n  \"plant\":{\n    \"name\": \"Basilic\",\n    \"waterNeed\": 40,\n    \"lightNeed\": 8,\n    \"temperatureNeed\": \"18,5\",\n    \"moistureNeed\": 30\n  }\n}"
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/{{prefix}}/greenhouse/",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{prefix}}",
+								"greenhouse",
+								""
+							]
+						},
+						"description": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "IoT Hub",
+			"description": "",
+			"item": [
+				{
+					"name": "get messages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "SharedAccessSignature sr=PiPot-Hub.azure-devices.net&sig=4X8fZpLeIPXO%2FiBOZkxnGZg6TuOnm9jtGUOHCo6Pa5E%3D&se=1549288454&skn=iothubowner"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://{{url}}/devices/{{deviceId}}/messages/devicebound?api-version=2016-02-03",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"devices",
+								"{{deviceId}}",
+								"messages",
+								"devicebound"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2016-02-03"
+								}
+							]
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "create event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "SharedAccessSignature sr=PiPot-Hub.azure-devices.net&sig=4X8fZpLeIPXO%2FiBOZkxnGZg6TuOnm9jtGUOHCo6Pa5E%3D&se=1549288454&skn=iothubowner"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"device\": \"3444D4\",\n    \"time\": \"1515774745\",\n    \"snr\": \"9.50\",\n    \"station\": \"04A6\",\n    \"data\":    \"0000000008ca\",\n    \"avgSignal\": \"18.78\",\n    \"lat\": \"44.0\",\n    \"lng\": \"1.0\",\n    \"rssi\": \"-135.00\",\n    \"seqNumber\": \"150\"\n}"
+						},
+						"url": {
+							"raw": "https://{{url}}/devices/{{deviceId}}/messages/events?api-version=2016-02-03",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"devices",
+								"{{deviceId}}",
+								"messages",
+								"events"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2016-02-03",
+									"equals": true
+								}
+							]
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Get Devices",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "SharedAccessSignature sr=PiPot-Hub.azure-devices.net&sig=4X8fZpLeIPXO%2FiBOZkxnGZg6TuOnm9jtGUOHCo6Pa5E%3D&se=1549288454&skn=iothubowner"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "https://{{url}}/devices?api-version=2016-11-14",
+							"protocol": "https",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"devices"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2016-11-14",
+									"equals": true
+								}
+							]
+						},
+						"description": null
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0b3dda3e-90b0-468a-87f3-7dd11d15335d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f5194725-ea6c-4e25-9c87-a70d886e0989",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,6 +1,6 @@
 import {
   IMeasure
-} from './../interfaces/measure.inteface';
+} from './../interfaces/measure.interface';
 import {
   IDownInstruction,
   ILampInstruction,
