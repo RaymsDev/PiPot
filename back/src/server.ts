@@ -1,7 +1,12 @@
-import * as express from 'express';
-import {MeasureController} from './controllers/measure.controller';
-import { RestServer } from './server.rest';
 import { ConsoleLogger } from './utils/logger.class';
+import * as express from 'express';
+
+import {
+  SigfoxController
+} from './controllers/sigfox.controller';
+import {
+  RestServer
+} from './server.rest';
 
 
 //To load .env file as ENV variable
@@ -14,14 +19,22 @@ const server = RestServer.start(express(), PORT, PREFIX);
 server.on('error', onError);
 server.on('listening', onListening);
 
-function normalizePort(val: number|string): number|string {
+function normalizePort(val: number | string): number | string {
   const port: number = (typeof val === 'string') ? parseInt(val, 10) : val;
-  if (isNaN(port)) { return val; } else if (port >= 0) { return port; } else { return 3001; }
+  if (isNaN(port)) {
+    return val;
+  } else if (port >= 0) {
+    return port;
+  } else {
+    return 3001;
+  }
 }
 
 function onError(error: NodeJS.ErrnoException): void {
-  if (error.syscall !== 'listen') { throw error; }
-  const bind = (typeof PORT === 'string') ? 'Pipe ' + PORT: 'Port ' + PORT;
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  const bind = (typeof PORT === 'string') ? 'Pipe ' + PORT : 'Port ' + PORT;
   switch (error.code) {
     case 'EACCES':
       console.error(`${bind} requires elevated privileges`);
@@ -42,11 +55,13 @@ function onListening(): void {
   //debug(`Listening on ${bind}`);
 }
 
-process.on('SIGUSR2', () => { process.exit(0); });
+process.on('SIGUSR2', () => {
+  process.exit(0);
+});
 
 
-const IOT_HUB_HOST=process.env.IOT_HUB_HOST;
-const IOT_DEVICE_ID=process.env.IOT_DEVICE_ID;
+const IOT_HUB_HOST = process.env.IOT_HUB_HOST;
+const IOT_DEVICE_ID = process.env.IOT_DEVICE_ID;
 const IOT_HUB_CONNECTION_STRING = process.env.IOT_HUB_CONNECTION_STRING;
 
 
@@ -54,12 +69,14 @@ const iotHubClient = require('./utils/iotHubReaderClient');
 var iotHubReader = new iotHubClient(IOT_HUB_CONNECTION_STRING, "pipotConsumer");
 iotHubReader.startReadMessage(function (obj, date) {
   try {
-    MeasureController.create(obj)
-    .then(res=>{
-      console.log(res);
+    SigfoxController.create(obj)
+    .then(measure=>{
+      ConsoleLogger.info(measure);
     })
+    .catch(error=>{
+      ConsoleLogger.error(error);
+    });
   } catch (err) {
-    console.log(obj);
-    console.error(err);
+    ConsoleLogger.error(err);
   }
 });
