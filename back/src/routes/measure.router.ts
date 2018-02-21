@@ -1,4 +1,7 @@
 import {
+  MeasureController
+} from './../controllers/measure.controller';
+import {
   Request,
   Response,
   Router
@@ -19,6 +22,9 @@ class MeasureRouter implements IRouter {
 
   public list(req: Request, res: Response): void {
     MeasureDBModel.find()
+      .sort({
+        createdAt: 'desc'
+      })
       .then((data) => {
         res.status(200).json({
           data
@@ -47,35 +53,8 @@ class MeasureRouter implements IRouter {
   }
 
   public create(req: Request, res: Response): void {
-
-    const temperature: number = req.body.temperature;
-    const airMoisture: number = req.body.airMoisture;
-    const soilMoisture: number = req.body.soilMoisture;
-    const waterLevel: number = req.body.waterLevel;
-    const luminosity: boolean = req.body.luminosity;
-    const lampIsOn: boolean = req.body.lampIsOn;
-    const doorIsOpen: boolean = req.body.doorIsOpen;
-    const greenhouseDevice: string = req.body.greenhouse;
-
-    GreenhouseDBModel.findOne({
-        device: greenhouseDevice
-      }).then(data => {
-
-        const greenhouseId = data._id;
-
-        const measure = new MeasureDBModel({
-          temperature,
-          airMoisture,
-          soilMoisture,
-          waterLevel,
-          luminosity,
-          lampIsOn,
-          doorIsOpen,
-          "greenhouse": greenhouseId
-        });
-
-        return measure.save();
-      }).then(data => {
+    MeasureController.create(req.body)
+      .then(data => {
         res.status(200).json({
           data
         });

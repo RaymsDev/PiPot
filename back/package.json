@@ -4,7 +4,10 @@
   "description": "Get Facebook's event",
   "main": "src/server.ts",
   "dependencies": {
+    "azure-event-hubs": "0.0.8",
+    "azure-iothub": "^1.2.4",
     "chalk": "^2.3.0",
+    "env2": "^2.2.0",
     "express": "^4.16.2",
     "mongoose": "^5.0.1",
     "mongoose-double": "0.0.1",
@@ -25,8 +28,7 @@
     "build": "tsc",
     "dev": "concurrently \"tsc --watch\" \"nodemon ./dist/server.js --watch dist\"",
     "dockerise": "docker-compose up",
-    "create-mongo-test": "docker run --name mongo-test -d -p 127.0.0.1:27017:27017 mongo",
-    "start-mongo-test": "docker start /mongo-test"
+    "create-mongodb-container": "docker run -d -p 27017:27017 mongo"
   },
   "repository": {
     "type": "git",
