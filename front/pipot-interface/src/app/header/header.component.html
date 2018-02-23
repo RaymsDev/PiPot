@@ -1,3 +1,23 @@
-<p>
-  header works!
-</p>
+<nav class="teal lighten-2" role="navigation">
+  <div class="nav-wrapper container">
+    <a href="#" id="logo-container">Pipot</a>
+
+    <ul class="right hide-on-med-and-down">
+      <li><a routerLink="/measures">Measures</a></li>
+      <li><a href="#">GreenHouse</a></li>
+    </ul>
+
+    <ul id="nav-mobile" class="side-nav" style="transform: translateX(-100%);">
+      <li>
+        <a ><i class="material-icons" (click)="close()">close</i></a>
+      </li>
+      <li><a routerLink="/measures">Measures</a></li>
+      <li><a href="#">GreenHouse</a></li>
+    </ul>
+
+    <a materialize="sideNav" [materializeActions]="sidenavActions" data-activates="nav-mobile" class="button-collapse hide-on-large-only">
+      <i class="material-icons">menu</i>
+    </a>
+
+  </div>
+</nav>
