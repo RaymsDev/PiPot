@@ -1,18 +1,14 @@
-import {
-  Measure
-} from './../models/measure.model';
-import {
-  Document
-} from 'mongoose';
-import {
-  DataFromDevice
-} from './../models/dataFromDevice.model';
-import MeasureDBModel from "./../schemas/measure.schema"
+import { Document } from 'mongoose';
+
 import GreenhouseSchema from '../schemas/greenhouse.schema';
+import { MeasureFactory } from './../factories/measure.factory';
+import { DataFromDevice } from './../models/dataFromDevice.model';
+import MeasureDBModel from './../schemas/measure.schema';
 
 export class SigfoxController {
+
   public static create(dataFromDevice: DataFromDevice): Promise < Document > {
-    const measure = Measure.fromHex(dataFromDevice.data);
+    const measure = MeasureFactory.fromHex(dataFromDevice.data);
 
     return GreenhouseSchema.findOne({
       device: dataFromDevice.device

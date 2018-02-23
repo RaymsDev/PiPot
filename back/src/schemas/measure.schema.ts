@@ -1,7 +1,21 @@
+import { IGreenhouseDBModel } from './greenhouse.schema';
 import {
   Schema,
-  model
+  model,
+  Document
 } from 'mongoose';
+
+export interface IMeasureDBModel extends Document{
+  createdAt:Date;
+  temperature:string;
+  airMoisture:number;
+  soilMoisture:number;
+  waterLevel: number;
+  luminosity: boolean;
+  lampIsOn: boolean;
+  doorIsOpen: boolean;
+  greenhouse: IGreenhouseDBModel;
+}
 
 const MeasureSchema: Schema = new Schema({
   createdAt: {
@@ -42,4 +56,4 @@ const MeasureSchema: Schema = new Schema({
   }
 });
 
-export default model('Measure', MeasureSchema);
+export default model<IMeasureDBModel>('Measure', MeasureSchema);

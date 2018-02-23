@@ -1,7 +1,26 @@
 import {
   Schema,
-  model
+  model,
+  Document
 } from 'mongoose';
+
+export interface IGreenhouseDBModel extends Document {
+  createdAt: Date;
+  updatedAt: Date;
+  device: string;
+  position: {
+    name: string,
+    lattitude: string,
+    longitude: string
+  };
+  plant: {
+    name: string,
+    waterNeed: number,
+    lightNeed: number,
+    temperatureNeed: string,
+    moistureNeed: number,
+  };
+}
 
 const GreenhouseSchema: Schema = new Schema({
   createdAt: {
@@ -14,7 +33,7 @@ const GreenhouseSchema: Schema = new Schema({
   device: {
     type: String,
     required: true,
-    unique:true
+    unique: true
   },
   position: {
     name: {
@@ -54,8 +73,12 @@ const GreenhouseSchema: Schema = new Schema({
   }
 });
 
-GreenhouseSchema.pre('update', function() {
-  this.update({},{ $set: { updatedAt: new Date() } });
+GreenhouseSchema.pre('update', function () {
+  this.update({}, {
+    $set: {
+      updatedAt: new Date()
+    }
+  });
 });
 
 

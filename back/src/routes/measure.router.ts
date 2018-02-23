@@ -1,16 +1,8 @@
-import {
-  MeasureController
-} from './../controllers/measure.controller';
-import {
-  Request,
-  Response,
-  Router
-} from "express";
-import {
-  IRouter
-} from "../interfaces/router.interface";
-import MeasureDBModel from "./../schemas/measure.schema"
-import GreenhouseDBModel from "./../schemas/greenhouse.schema";
+import { Request, Response, Router } from 'express';
+
+import { IRouter } from '../interfaces/router.interface';
+import { MeasureController } from './../controllers/measure.controller';
+import MeasureDBModel from './../schemas/measure.schema';
 
 class MeasureRouter implements IRouter {
   public router: Router;
@@ -21,10 +13,8 @@ class MeasureRouter implements IRouter {
   }
 
   public list(req: Request, res: Response): void {
-    MeasureDBModel.find()
-      .sort({
-        createdAt: 'desc'
-      })
+
+    MeasureController.list()
       .then((data) => {
         res.status(200).json({
           data
@@ -39,7 +29,7 @@ class MeasureRouter implements IRouter {
 
   public select(req: Request, res: Response): void {
     const id: string = req.params.id;
-    MeasureDBModel.findById(id)
+    MeasureController.select(id)
       .then(data => {
         res.status(200).json({
           data
