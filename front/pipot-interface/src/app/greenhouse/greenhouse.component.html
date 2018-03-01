@@ -1,3 +1,27 @@
-<p>
-  greenhouse works!
-</p>
+<div class="container">
+  <div class="row">
+    <ul materialize="collapsible" class="col s12" data-collapsible="expandable">
+      <li *ngFor="let greenhouse of greenhouses">
+        <div class="collapsible-header" >Device : {{greenhouse.device}}<i class="material-icons right">arrow_drop_down</i></div>
+        <div class="collapsible-body">
+          <div>
+            <i class="material-icons device-icons" >gps_fixed</i>
+            {{ greenhouse.position.name}} : {{greenhouse.position.longitude}}, {{greenhouse.position.lattitude}}
+          </div>
+          <div>
+            <i class="device-icons"><img src="../../assets/images/icons/plant-icon.svg" class="custom-icons"></i>{{ greenhouse.plant.name}}
+            <a materialize="dropdown" data-constrainwidth="false" class='right' href='#' data-activates='dropdown1'><i class="material-icons">more_vert</i></a>
+
+            <!-- Dropdown Structure -->
+            <ul id='dropdown1' class='dropdown-content' >
+              <li class="collection-item"><a routerLink="/greenhouse/plant/edit/{{greenhouse.plant.name}}"><i class="material-icons">edit</i>Edit</a></li>
+              <li class="collection-item"><a (click)="deletePlant()"><i class="material-icons">clear</i>Delete</a></li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div (click)="addGreenHouse(green_to_send)" class="btn">Click me to send</div>
+</div>

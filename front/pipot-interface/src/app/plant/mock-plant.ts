@@ -1,4 +1,4 @@
-import {Plant} from '../../../model/plant.model';
+import {Plant} from '../../model/plant.model';
 
 export const PLANT: Plant[] = [
   {

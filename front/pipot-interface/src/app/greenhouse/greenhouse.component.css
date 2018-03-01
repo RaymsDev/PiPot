@@ -1,0 +1,16 @@
+.material-icons, .icon-text {
+  vertical-align: middle;
+}
+
+.device-icons {
+  margin-right: 1%;
+}
+
+.custom-icons {
+  width: 30px;
+  vertical-align: middle;
+}
+
+.device-options-dropdown {
+  width: 300px;
+}
