@@ -94,6 +94,7 @@ export class MeasureFactory{
   public static fromDBModel(dBModel: IMeasureDBModel):IMeasure{
     const measure = new Measure();
 
+    measure.id = dBModel.id;
     measure.temperature = dBModel.temperature;
     measure.airMoisture = dBModel.airMoisture;
     measure.soilMoisture = dBModel.soilMoisture;

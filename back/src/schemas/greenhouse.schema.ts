@@ -1,3 +1,4 @@
+import { IPlantDBModel } from './plant.schema';
 import {
   Schema,
   model,
@@ -13,13 +14,7 @@ export interface IGreenhouseDBModel extends Document {
     lattitude: string,
     longitude: string
   };
-  plant: {
-    name: string,
-    waterNeed: number,
-    lightNeed: number,
-    temperatureNeed: string,
-    moistureNeed: number,
-  };
+  plant: IPlantDBModel
 }
 
 const GreenhouseSchema: Schema = new Schema({
@@ -50,26 +45,8 @@ const GreenhouseSchema: Schema = new Schema({
     }
   },
   plant: {
-    name: {
-      type: String,
-      default: ""
-    },
-    waterNeed: {
-      type: Number,
-      default: 0
-    },
-    lightNeed: {
-      type: Number,
-      default: 0
-    },
-    temperatureNeed: {
-      type: String,
-      default: ""
-    },
-    moistureNeed: {
-      type: Number,
-      default: 0
-    }
+    type: Schema.Types.ObjectId,
+    ref: "Plant"
   }
 });
 

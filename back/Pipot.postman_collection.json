@@ -191,7 +191,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"device\": \"2002D3\",\n  \"position\":{\n    \"name\":\"Salle de pause\",\n    \"lattitude\":\"41\",\n    \"longitude\":\"1\"\n  },\n  \"plant\":{\n    \"name\": \"Basilic\",\n    \"waterNeed\": 40,\n    \"lightNeed\": 8,\n    \"temperatureNeed\": \"18,5\",\n    \"moistureNeed\": 30\n  }\n}"
+							"raw": "{\n  \"device\": \"2002D6\",\n  \"position\":{\n    \"name\":\"Salle de pause\",\n    \"lattitude\":\"41\",\n    \"longitude\":\"1\"\n  },\n  \"plant\":\"5a986de6f2bb972a15d36b35\"\n}"
 						},
 						"url": {
 							"raw": "{{domain}}:{{port}}/{{prefix}}/greenhouse/",
@@ -328,6 +328,106 @@
 							]
 						},
 						"description": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "plant",
+			"description": "",
+			"item": [
+				{
+					"name": "Create plant",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Basilic\",\n    \"waterNeed\": 40,\n    \"lightNeed\": 8,\n    \"temperatureNeed\": \"18,5\",\n    \"moistureNeed\": 30\n  }\n"
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/{{prefix}}/plant/",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{prefix}}",
+								"plant",
+								""
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get plants",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"temperature\": \"23,5\"\n\"airMoisture\": \"45\"\n\"soilMoisture\": \"60\"\n\"waterLevel\": \"90\"\n\"luminosity\": \"true\"\n\"lampIsOn\": \"false\"\n\"doorIsOpen\": \"false\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/{{prefix}}/greenhouse/",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{prefix}}",
+								"greenhouse",
+								""
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "select plant",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"temperature\": \"23,5\"\n\"airMoisture\": \"45\"\n\"soilMoisture\": \"60\"\n\"waterLevel\": \"90\"\n\"luminosity\": \"true\"\n\"lampIsOn\": \"false\"\n\"doorIsOpen\": \"false\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/{{prefix}}/plant/5a986de6f2bb972a15d36b35",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"{{prefix}}",
+								"plant",
+								"5a986de6f2bb972a15d36b35"
+							]
+						},
+						"description": ""
 					},
 					"response": []
 				}

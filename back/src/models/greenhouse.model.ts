@@ -5,6 +5,7 @@ import { IPosition } from '../interfaces/position.interface';
 import { Position } from './position.model';
 
 export class Greenhouse implements IGreenhouse{
+  id?: string;
   device: string;
   position: IPosition;
   plant: IPlant;
@@ -14,6 +15,7 @@ export class Greenhouse implements IGreenhouse{
       return;
     }
 
+    this.id = data.id ? data.id :null;
     this.device = data.device ? data.device :"";
     this.plant = new Plant(data.plant);
     this.position = new Position(data.position);

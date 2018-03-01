@@ -3,6 +3,7 @@ import {
 } from './../interfaces/plant.interface';
 
 export class Plant implements IPlant {
+  public id?:string;
   public name: string;
   public waterNeed: number;
   public lightNeed: number;
@@ -14,6 +15,7 @@ export class Plant implements IPlant {
       return;
     }
 
+    this.id = data.id ? data.id : null;
     this.name = data.name ? data.name : "";
     this.waterNeed = data.waterNeed ? data.waterNeed : 0;
     this.lightNeed = data.lightNeed ? data.lightNeed : 0;
