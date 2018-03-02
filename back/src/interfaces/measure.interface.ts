@@ -1,6 +1,7 @@
 import { IGreenhouse } from './greenhouse.interface';
 export interface IMeasure{
   id?:string;
+  createdAt?: Date;
   temperature?: string;
   airMoisture?: number;
   soilMoisture?: number;
