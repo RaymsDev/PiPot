@@ -3,6 +3,7 @@ import { IMeasure } from './../interfaces/measure.interface';
 
 export class Measure implements IMeasure {
   public id?:string;
+  public createdAt: Date;
   public temperature: string;
   public airMoisture: number;
   public soilMoisture: number;
@@ -18,6 +19,7 @@ export class Measure implements IMeasure {
     }
 
     this.id = data.id ? data.id : null;
+    this.createdAt = data.createdAt ? data.createdAt : new Date();
     this.temperature = data.temperature ? data.temperature : "";
     this.airMoisture = data.airMoisture ? data.airMoisture : 0;
     this.soilMoisture = data.soilMoisture ? data.soilMoisture : 0;
